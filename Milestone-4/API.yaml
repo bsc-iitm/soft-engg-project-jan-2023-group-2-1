@@ -36,7 +36,7 @@ info:
             <tr>
                 <td>role</td>
                 <td>String</td>
-                <td>Not Null 0</td>
+                <td>Not Null</td>
             </tr>
         </tbody>
     </table>
@@ -161,12 +161,12 @@ info:
             <tr>
                 <td>ticket_id</td>
                 <td>Integer</td>
-                <td>Foreign Key(Ticket.ticket_id)</td>
+                <td>Primary Key, Foreign Key(Ticket.ticket_id)</td>
             </tr>
             <tr>
                 <td>user_id</td>
                 <td>Integer</td>
-                <td>Foreign Key(User.user_id)</td>
+                <td>Primary Key, Foreign Key(User.user_id)</td>
             </tr>
         </tbody>
     </table>
@@ -333,6 +333,7 @@ info:
   version: 1.0.11
 servers:
   - url: http://127.0.0.1:5500
+  - url: http://teamfmm.pythonanywhere.com
 tags:
   - name: login
     description: Login Manager API
@@ -346,6 +347,7 @@ tags:
     description: Response API for Ticket Manager
 paths:
   /api/login/{email}:
+    summary: test.
     description: End point to read, update and delete a User data for the given email.
     get:
       tags:
@@ -397,7 +399,7 @@ paths:
                   type: string
                   example: staff
       responses:
-        "200":
+        "202":
           description: Request Successful
           content:
             application/json:
@@ -547,7 +549,7 @@ paths:
                   type: boolean
                   example: true
       responses:
-        "200":
+        "202":
           description: Request Successful
           content:
             application/json:
@@ -685,7 +687,7 @@ paths:
         - Ticket
       description: >-
         Operation to Edit Ticket details. The action variable can contain string
-        `like` or `faq`
+        `like`,`faq` or `notfaq`
       operationId: editTicket
       parameters:
         - in: path
@@ -870,7 +872,7 @@ paths:
                   type: string
                   example: MLT
       responses:
-        "200":
+        "202":
           description: Request Successful
           content:
             application/json:
@@ -1182,8 +1184,15 @@ paths:
                     type: string
         "500":
           description: Internal server error
+security:
+  - bearerAuth: []
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
@@ -1224,6 +1233,9 @@ components:
         subject_id:
           type: integer
           example: 1
+        subject_name:
+          type: string
+          example: BDM
     Ticket:
       type: object
       properties:
@@ -1282,9 +1294,12 @@ components:
         user_id:
           type: integer
           example: 3
+        username:
+          type: string
+          example: staff1
         response:
           type: string
-          example: Response given by the staff to the correspoinding ticket
+          example: Response given by the staff/student to the correspoinding ticket
         isAnswer:
           type: boolean
           example: false
@@ -1293,6 +1308,9 @@ components:
       type: object
       properties:
         ticket_id:
+          type: integer
+          example: 1
+        user_id:
           type: integer
           example: 1
         title:
@@ -1307,12 +1325,15 @@ components:
         ticket_status:
           type: string
           example: unresolved
+        subject_name:
+          type: string
+          example: MLT
         sec_name:
           type: string
           example: week-1
         likes:
           type: integer
-          example: 10
+          example: [1, 5]
         response_list:
           type: array
           items:
