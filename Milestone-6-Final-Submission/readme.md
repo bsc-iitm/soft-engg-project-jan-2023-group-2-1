@@ -37,3 +37,6 @@ npm run serve
 	- Student: user_id:user1 password:abcd3
 	- Staff: user_id: bastaff password:123456
 	- Admin: user_id: admin1 password: 123456
+
+## Presentation Video
+[Click here to see](https://drive.google.com/file/d/1cyuHTnWsGckxYKuEX5LmK71WLHjobvI9/view?usp=sharing)
